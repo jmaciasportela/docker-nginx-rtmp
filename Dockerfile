@@ -155,7 +155,8 @@ RUN apk add --no-cache \
   opus \
   rtmpdump \
   x264-dev \
-  x265-dev
+  x265-dev \
+  tzdata
 
 COPY --from=build-nginx /usr/local/nginx /usr/local/nginx
 COPY --from=build-nginx /etc/nginx /etc/nginx
@@ -167,6 +168,8 @@ ENV PATH "${PATH}:/usr/local/nginx/sbin"
 COPY nginx.conf /etc/nginx/nginx.conf.template
 RUN mkdir -p /opt/data && mkdir /www
 COPY static /www/static
+
+RUN cp /usr/share/zoneinfo/Europe/Madrid /etc/localtime && echo "Europe/Madrid" >  /etc/timezone
 
 EXPOSE 1935
 EXPOSE 80
